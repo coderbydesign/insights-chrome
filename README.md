@@ -4,23 +4,17 @@ The "wrapper" around your application!
 
 Insights Chrome provides:
 
-- Standard header and navigation
+- Standard header and [navigation](https://github.com/redhatinsights/insights-chrome/tree/master/docs/navigation.md)
 - Base CSS/style
-- A JavaScript library for interacting with Insights Chrome
+- A Javascript library for interacting with Insights Chrome
 
 For more detailed information about chrome and what it provides, [look through the detailed documentation](https://github.com/redhatinsights/insights-chrome/tree/master/docs).
 
-## Javascript API
+## JavaScript API
 
 Insights Chrome comes with a Javacript API that allows applications to control navigation, global filters, etc.
 
-```js
-    // initialize chrome
-    insights.chrome.init();
-
-    // identify yourself (the application). This tells Chrome which global navigation element should be active
-    insights.chrome.identifyApp('advisor');
-```
+Check out the [useChrome hook docs](http://front-end-docs-insights.apps.ocp4.prod.psi.redhat.com/chrome/chrome-api#Chrome)
 
 ## Running the build
 
@@ -60,11 +54,30 @@ To run a script you have to install dependencies `npm install`. Then you are fre
     > npm run dev
     ```
 
-3. Open browser at `https://stage.foo.redhat.com:1337/`.
+3. Open browser at `https://stage.foo.redhat.com:1337/` or Open browser at `https://stage.foo.redhat.com:1337/preview`.
 
 ### Running chrome as a host application.
 
 As with any application, chrome can be a host application for others. You can configure the `routes` object in the `webpack.config.js` file as described in the proxy config [docs](https://github.com/RedHatInsights/frontend-components/tree/master/packages/config#routes).
+
+#### Example
+
+For illustration, to locally deploy Advisor for OpenShift together with Insights Chrome, you would require to 
+1. Run Advisor with `--port=8004` (or any other available port number),
+2. Update the webpack config in the following way:
+```
+...
+devServer: {
+    ...
+    routes: {
+        '/apps/ocp-advisor': {
+            host: 'https://localhost:8004',
+        },
+    },
+}
+...
+```
+3. Run insights-chrome with `npm run dev` or `npm run dev:beta`.
 
 ## LocalStorage Debugging
 
