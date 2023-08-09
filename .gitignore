@@ -21,3 +21,17 @@ Session.vim
 .idea/
 .vscode/
 coverage/
+
+# cypress diff snapshots
+cypress/**/*.diff.png
+cypress/videos
+cypress/screenshots
+
+# cache
+.cache
+.webpack-cache
+.cypress-cache
+
+#swc
+.swc
+.cypress_cache

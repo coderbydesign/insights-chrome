@@ -4,77 +4,40 @@ The "wrapper" around your application!
 
 Insights Chrome provides:
 
-- Standard header and navigation
+- Standard header and [navigation](https://github.com/redhatinsights/insights-chrome/tree/master/docs/navigation.md)
 - Base CSS/style
-- A JavaScript library for interacting with Insights Chrome
+- A Javascript library for interacting with Insights Chrome
 
 For more detailed information about chrome and what it provides, [look through the detailed documentation](https://github.com/redhatinsights/insights-chrome/tree/master/docs).
 
-## Javascript API
+## JavaScript API
 
 Insights Chrome comes with a Javacript API that allows applications to control navigation, global filters, etc.
 
-```js
-    // initialize chrome
-    insights.chrome.init();
-
-    // identify yourself (the application). This tells Chrome which global navigation element should be active
-    insights.chrome.identifyApp('advisor');
-```
+Check out the [useChrome hook docs](http://front-end-docs-insights.apps.ocp4.prod.psi.redhat.com/chrome/chrome-api#Chrome)
 
 ## Running the build
 
-There is numerous of task for building this application. You can run individual tasks or run them in batch to build the
-entire app or to watch files.
+There are a few scripts for building this application.
 
-### Individual tasks
+To run a script you have to install dependencies `npm install`. Then you are free to use any task you want.
 
-To run each task you have to first install dependencies `npm install` and then you are free to use any task as you wish.
-If you want to watch file changes for each build just pass `-- -w` to specific task (this is not applicable to
-`npm run build:js:watch` because it's somewhat specific).
-
-1. Building of styles
-
-    ```bash
-    > npm run build:sass
-    ```
-
-2. Building of javascripts
-
-    ```bash
-    > npm run build:js
-    ```
-
-3. Building of javascripts and watching files when they change
-
-    ```bash
-    > npm run watch:js
-    ```
-
-4. Building of HTML partials
-
-    ```bash
-    > npm run build:pug
-    ```
-
-5. Running tests
-
-    ```bash
-    > npm run test
-    ```
-
-### Specific tasks
-
-1. Run build of whole application just once
+1. Building assets
 
     ```bash
     > npm run build
     ```
 
-2. Watching file changes and trigger build every time something changes
+2. Building assets and watching files when they change
 
     ```bash
-    > npm run start
+    > npm run build --watch
+    ```
+
+3. Running tests
+
+    ```bash
+    > npm run test
     ```
 
 ## Running chrome locally
@@ -91,11 +54,30 @@ If you want to watch file changes for each build just pass `-- -w` to specific t
     > npm run dev
     ```
 
-3. Open browser at `https://stage.foo.redhat.com:1337/`.
+3. Open browser at `https://stage.foo.redhat.com:1337/` or Open browser at `https://stage.foo.redhat.com:1337/preview`.
 
-Where `SPANDX_CONFIG` can be any config for your application (here is an example for [insights-frontend-starter-app](https://github.com/RedHatInsights/insights-frontend-starter-app)), just make sure your application is running `npm start` in said application.
+### Running chrome as a host application.
 
-After permorming these tasks you can access `ci.foo.redhat.com:1337/{bundle}/{app}`, where bundle and app are defined in your `local-frontend.js` and observe changes as you save them.
+As with any application, chrome can be a host application for others. You can configure the `routes` object in the `webpack.config.js` file as described in the proxy config [docs](https://github.com/RedHatInsights/frontend-components/tree/master/packages/config#routes).
+
+#### Example
+
+For illustration, to locally deploy Advisor for OpenShift together with Insights Chrome, you would require to 
+1. Run Advisor with `--port=8004` (or any other available port number),
+2. Update the webpack config in the following way:
+```
+...
+devServer: {
+    ...
+    routes: {
+        '/apps/ocp-advisor': {
+            host: 'https://localhost:8004',
+        },
+    },
+}
+...
+```
+3. Run insights-chrome with `npm run dev` or `npm run dev:beta`.
 
 ## LocalStorage Debugging
 
